@@ -2,13 +2,13 @@ title:              Clean Blog
 email:              your-email@example.com
 description:        A Blog Theme by Start Bootstrap
 author:             Start Bootstrap
-url:                "https://singularitysurfer.github.io/SingularitySystems/"
+url:                "/SingularitySystems/"
 
 # Social Profiles
 twitter_username:   SBootstrap
 github_username:    StartBootstrap
 facebook_username:  StartBootstrap
-instagram_username:  
+instagram_username:
 linkedin_username:
 
 # Add your google-analytics ID here to activate google analytics
