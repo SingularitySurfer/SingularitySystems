@@ -1,13 +1,13 @@
-title:              Clean Blog
-email:              your-email@example.com
-description:        A Blog Theme by Start Bootstrap
-author:             Start Bootstrap
+title:              SingularitySystems
+# email:              your-email@example.com
+description:        Testgelaber
+author:             SingularitySurfer
 url:                "/SingularitySystems/"
 
 # Social Profiles
-twitter_username:   SBootstrap
-github_username:    StartBootstrap
-facebook_username:  StartBootstrap
+twitter_username:   SingularitySys
+github_username:    SingularitySurfer
+# facebook_username:  StartBootstrap
 instagram_username:
 linkedin_username:
 
