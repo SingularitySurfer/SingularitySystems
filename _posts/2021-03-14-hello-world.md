@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Hello World(s)"
-subtitle:   "Sorry for the cheesy title ;)"
+subtitle:   "What the hell is this?"
 date:       2021-03-14 12:00:00
 author:     SingularitySurfer
 background: "/img/nextpnr_high.png"
@@ -18,13 +18,13 @@ However, if you start to dig a bit into how our current and future machines make
 
 So that's what this blog is about. Exploring the ways humans are orchestrating the universe to process and conduct information.
 
-The content will range from deep dives into signal processing on digital hardware (gateware), hardware projects you might like, overviews over a particular system or medium to philosophical takes on fundamental concepts. A focus will be on open source, open science and collaborative engineering because sustainable progress cannot happen inside the ivory towers built by some of today's organizations.
+The content will range from deep dives into signal processing on digital hardware (gateware), random projects involving FPGAs, lasers and computers, overviews over a particular system/medium to philosophical takes on fundamental concepts. A focus will be on open source, open science and collaborative engineering because sustainable progress cannot happen inside the ivory towers built by some of today's organizations.
 
 All that stuff is gonna be somewhat unfiltered and narrated from a subjective viewpoint. I am a human myself, I am not an expert in anything, I am biased, I often make mistakes. (Un)fortunately this is the world wild web, not a peer-reviewed journal[^1]. That being said, I will give my best to not spread false (technical) facts and I always appreciate constructive feedback!
 
 So if you too want to learn about how to use the scientific and technical toolkit inherited from generations of brilliant minds, hop in on the ride! It's gonna be fun for sure!
 
-ps. sorry for the cheesy title
+P.S. Sorry for the cheesy title ;)
 
 
 [^1]: [And even that only helps to some extent.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1182327/)
