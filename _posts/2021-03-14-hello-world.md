@@ -1,12 +1,12 @@
-# ---
-# layout:     post
-# title:      "Hello World(s)"
-# subtitle:   "A short introduction to this blog."
-# date:       2021-03-14 12:00:00
-# author:     SingularitySurfer
-# background: "/img/nextpnr_high.png"
-# category:
-# ---
+---
+layout:     post
+title:      "Hello World(s)"
+subtitle:   "A short introduction to this blog."
+date:       2021-03-14 12:00:00
+author:     SingularitySurfer
+background: "/img/nextpnr_high.png"
+category:
+---
 
 Have you ever seen information? What is it anyways?
 
