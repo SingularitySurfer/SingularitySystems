@@ -14,7 +14,7 @@ Have you ever seen information? What is it anyways?
 <!-- Questions asked by the utterly deranged!! -->
 
 One might say that's a stupid question to ask. Usually we care about what that information means and not what it fundamentally is.
-However, deep inside the guts of some server farm the information representing this blog exists as the tiny amount of electrical charge on a floating gate transistor. This information goes on the most incredible and miraculous journey until it finally leaves the liquid crystals in your display. With this complexity and scale already unfathomable for an individual, even deeper information flows are being developed by an ever growing number of scientists and engineers.
+However, deep inside the guts of some server farm the information representing this blog exists as the tiny amount of electrical charge on a floating gate transistor. This information goes on the most incredible and miraculous journey until it finally leaves the liquid crystals in your display. With the complexity and scale already unfathomable for an individual, even deeper information flows are being developed by an ever growing number of scientists and engineers.
 
 <!-- However, if you start to dig a bit into how our current and future machines make this information flow, you will come across some of the weirdest and most wonderful stuff you can find in this world. -->
 <!-- Ofc there are other interesting things like life that also processes information in crazy ways! -->
