@@ -1,14 +1,15 @@
 ---
 layout:     post
-title:      "Hello World(s)!"
+title:      "Hello World(s)"
 subtitle:   "Sorry for the cheesy title ;)"
 date:       2021-03-14 12:00:00
-author:     test
-background: "/img/nextpnr_large.png"
+author:     SingularitySurfer
+background: "/img/nextpnr_high.png"
 category:
 ---
 
 Have you ever seen information?
+
 <!-- What is it anyways? What can we do with it? -->
 <!-- Questions asked by the utterly deranged!! -->
 What a weird question. Usually we care about what that information means and not what it fundamentally is.
@@ -22,6 +23,8 @@ The content will range from deep dives into signal processing on digital hardwar
 All that stuff is gonna be somewhat unfiltered and narrated from a subjective viewpoint. I am a human myself, I am not an expert in anything, I am biased, I often make mistakes. (Un)fortunately this is the world wild web, not a peer-reviewed journal[^1]. That being said, I will give my best to not spread false (technical) facts and I always appreciate constructive feedback!
 
 So if you too want to learn about how to use the scientific and technical toolkit inherited from generations of brilliant minds, hop in on the ride! It's gonna be fun for sure!
+
+ps. sorry for the cheesy title
 
 
 [^1]: [And even that only helps to some extent.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1182327/)
