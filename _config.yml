@@ -2,7 +2,7 @@ title:              SingularitySystems
 # email:              your-email@example.com
 description:        Making Information Change Form
 author:             SingularitySurfer
-baseurl:                "/SingularitySystems/"
+baseurl:            "/SingularitySystems/"
 
 # Social Profiles
 twitter_username:   SingularitySys
