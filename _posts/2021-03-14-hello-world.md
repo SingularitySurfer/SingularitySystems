@@ -19,11 +19,15 @@ However, deep inside the guts of some server farm the information representing t
 <!-- However, if you start to dig a bit into how our current and future machines make this information flow, you will come across some of the weirdest and most wonderful stuff you can find in this world. -->
 <!-- Ofc there are other interesting things like life that also processes information in crazy ways! -->
 
-So that's what this blog is about. Exploring the ways humans are orchestrating the universe to conduct and process information.
+So that's what this blog is about. Exploring the ways humans orchestrate the universe to store, conduct and process information. and extracting information of unknown systems.
 
 The content will range from deep dives into signal processing on digital hardware (gateware), random projects involving FPGAs/lasers/computers, overviews over a particular system/medium to philosophical takes on fundamental concepts. A focus will be on open source, open science and collaborative engineering because sustainable progress cannot happen inside the ivory towers built by some of today's organizations.
 
-All that stuff is gonna be somewhat unfiltered and narrated from a subjective viewpoint. I am a human myself, I am not an expert in anything, I am biased, I often make mistakes. (Un)fortunately this is the world wild web, not a peer-reviewed journal[^1]. That being said, I will give my best to not spread false (technical) facts and I always appreciate constructive feedback!
+ Since modern society rests upon the
+
+It is up to us to design the next generation of information systems in a way that leaves vital
+
+All that stuff is gonna be somewhat unfiltered and narrated from a subjective viewpoint. I am a human myself, I am not an expert in anything, I often make mistakes. (Un)fortunately this is the world wild web, not a peer-reviewed journal[^1]. That being said, I will give my best to not spread false (technical) facts and I always appreciate constructive feedback!
 
 So if you too want to learn about how to use the scientific and technical toolkit inherited from generations of brilliant minds, hop in on the ride! It's gonna be fun for sure!
 
