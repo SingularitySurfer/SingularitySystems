@@ -37,7 +37,7 @@ All that stuff is gonna be somewhat unfiltered and narrated from a subjective vi
 
 So if you too want to learn and cherish the scientific and technical toolkit inherited from generations of brilliant minds, hop in on the ride! It's gonna be an adventure for sure!
 
-P.S. Sorry for the cheesy title, I promise I'll use the magic q-word responsibly. ;)
+P.S. Sorry for the cheesy title, I promise I'll use the magic q-word sparsely. ;)
 
 [^1]: [And even that only helps to some extent.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1182327/)
 
