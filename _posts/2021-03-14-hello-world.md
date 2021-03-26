@@ -14,7 +14,9 @@ Have you ever seen information? What is it anyways?
 <!-- Questions asked by the utterly deranged!! -->
 
 One might say that it's a stupid question to ask. Usually we care more about what information means, rather than what it fundamentally is.
-However, deep inside the guts of some server farm, the information representing this blog exists as tiny amounts of electrical charge on a few floating gate transistors. This information goes on a most incredible and miraculous journey, through circuit elements and liquid crystals in your display and finally passing through your eyeballs.
+However, deep inside the guts of some server farm, the information representing this blog exists as tiny amounts of electrical charge on a few floating gate transistors. This information goes on a most incredible and miraculous journey until it finally leaves the liquid crystals in your display.
+
+<!-- , through circuit elements and liquid crystals in your display and finally passing through your eyeballs. -->
 
 But information can also come from systems where it has not been put artificially. From human brains to spacetime itself, using the wonders of modern technology researchers can distill even the faintest of signal into meaningful data. With the complexity and scale already unfathomable for an individual, even deeper information flows are being developed by an ever growing number of scientists and engineers.
 
@@ -26,14 +28,13 @@ But information can also come from systems where it has not been put artificiall
 
 So that's what this blog is about. Exploring the ways humans orchestrate the universe to extract, store, conduct and process information.
 
-<!-- and extracting information of unknown systems. -->
 
 The content will range from deep dives into signal processing on digital hardware (gateware), random projects involving FPGAs/lasers/computers, overviews over a particular system/medium to philosophical takes on fundamental concepts. A focus will be on open source, open science and collaborative engineering because sustainable progress cannot happen inside the ivory towers built by some of today's organizations.
 
  <!-- Since modern society rests upon the
 It is up to us to design the next generation of information systems in a way that leaves vital -->
 
-All this stuff is gonna be somewhat unfiltered and narrated from a subjective viewpoint. I am just a human in awe of the world and not an expert in any of these fields. (Un)fortunately this is the world-wild-web, not a peer-reviewed journal[^1]. That being said, I will give my best to not spread false (technical) facts and I always appreciate constructive feedback!
+All this stuff is gonna be somewhat unfiltered and narrated from a subjective viewpoint. I am just a human myself and not an expert in any of these fields. (Un)fortunately this is the world-wild-web, not a peer-reviewed journal[^1]. That being said, I will give my best to not spread false (technical) facts and I always appreciate constructive feedback!
 
 So if you too want to learn and cherish the scientific and technical toolkit inherited from generations of brilliant minds, hop on and strap in! It's gonna be an adventure for sure!
 
