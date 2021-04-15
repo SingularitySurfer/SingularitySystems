@@ -5,14 +5,14 @@ subtitle:   "A variable rate-change, super-sampled, high performance interpolato
 date:       2021-04-12 12:00:00
 author:     SingularitySurfer
 background: "/img/posts/interpolator/impulseresponse.png"
-published:  false
+published:  true
 ---
 
-This post is a deep dive into the performance and architecture of a variable interpolator core. It is intended for people who really want to understand the circuits in detail with all the nice and nasty details. You should bring some knowledge of digital signal processing, specifically HBF and CIC filters. Resources on those can be found here[^1][^2]. Tomverbeure's blog is a great read on HBF filtes [^3] and a decimator cascade [^4] that inspired some of the plots here.
+This posts presents the development of a variable rate-change, super-sampled, high performance interpolator core. The discussed techniques require some knowledge of digital signal processing, specifically Half-Band Filters (HBFs) and Cascaded Integrator Comb (CIC) filters. This[^1] article gives a good introduction to CIC filters. Tomverbeure's blog is a great read on HBF filtes[^2] and a decimator cascade[^3] that inspired some of the plots here. Armed with this knowledge you might find a few advanced architectural tricks in this post that I found to be hard to come by just searching the internet.
 
-Interpolators are necessary in any Direct Upconversion (DUC) scheme where a slow baseband signal is digitally upconverted with a fast digital carrier. With modern gigasample dataconverters it becomes increasingly difficult to build fast circuits that run at the full sample rate. Hence a super-sampled architecture is often necessary, computing multiple output samples in one clock cycle.
+Interpolators are necessary in any Direct Upconversion (DUC) scheme where a slow baseband signal is upconverted by a fast digital carrier. With modern gigasample dataconverters it becomes increasingly difficult to build fast circuits that run at the full sample rate. Hence a super-sampled architecture is often necessary, computing multiple output samples in one clock cycle.
 
-The core presented here operates 2x super-sampled and can be dynamically configured to various rate changes. It internally uses 18 bit signals since this maximizes the dsp-block resources and achieves an alias rejection of greater than 89.7dB for all interpolation rates. The maximum ratechange configured at synthesis can be very high (>8000 tested). In this configuration the full interpolator has an impulse response of several 100000 samples and thus performs a lot of compute. The background picture on top shows a small part of the impulse response for a ratechange of ~50. The core can be clocked at >250MHz on an Artix-7 FPGA.
+The core presented here operates 2x super-sampled and can be dynamically configured to various rate changes. It internally uses 18 bit signals since this maximizes the dsp-block resources and achieves an alias rejection of greater than 89.7dB for all interpolation rates. The interpolator features a finite impulse response and the maximum rate-change configured at synthesis can be very high (>8000 tested). In this configuration the full interpolator has an impulse response of several 100000 samples and thus performs a lot of raw compute. The background picture on top shows a small part of the impulse response for a rate-change of ~50. The core can be clocked at >250MHz on an Artix-7 FPGA.
 
 You can temporarily find it [here](https://github.com/quartiq/phaser/blob/stft_pulsegen/stft_pulsegen/super_interpolator.py). Eventually the interpolator and other DSP cores will be aggregated into a dedicated repo.
 
@@ -26,11 +26,11 @@ where $H$ is the frequency response and $\Omega$ represents the normalized angul
 \begin{equation}
   N=(4\cdot n)-1,
 \end{equation}
- where $N$ is the number of filter taps and $n$ is a natural number, the frequency response is centered around $\Omega/2$. As a result, every second coefficient, except for the center tap becomes zero. Additionally, the symmetrical impulse response halves the number of multiplications and makes use of DSP pre-adders. A polyphase decomposition of a $R=2$ HBF interpolator leads to the aggregation of the non-zero multiplications in one polyphase path. The other polyphase part reduces to a unity-gain delay \cite{gockler2011most}.
+ where $N$ is the number of filter taps and $n$ is a natural number, the frequency response is centered around $\Omega/2$. As a result, every second coefficient, except for the center tap becomes zero. Additionally, the symmetrical impulse response halves the number of multiplications and makes use of DSP pre-adders. A polyphase decomposition of a $R=2$ HBF interpolator leads to the aggregation of the non-zero multiplications in one polyphase path. The other polyphase part reduces to a unity-gain delay[^4].
 
 A Cascaded Integrator Comb (CIC) filter is a special case of a multiplier-less FIR filter. As the name suggests, instead of delaying and multiplying the input, it constitutes a cascade of integrator and comb stages. While this arrangement makes for a very resource efficient implementation, the filter has a limited range of possible frequency responses. However, as no new filter coefficients have to be provided, the response can be adapted easily during operation.
 
-Since a monolithic filter for the whole interpolator would not be very flexible or efficient, a variable filter cascade is employed. At $R=2$ the interpolator uses a single, sharp HBF with a transition band form $\omega_p=0.4\Omega$  to $\omega_s=0.6\Omega$, with $\omega_p$ being the passband frequency and $\omega_s$ the stopband frequency. The minimum HBF size for an image rejection of higher than 90dB is 59 taps using the Parks–McClellan/Remez algorithm. Due to the high stopband attenuation and the symmetrical nature of the frequency response \ref{1}, passband ripple is not a concern. A zero stuffer inserts a zero between each sample and the filter input (in the actual implementation this zero stuffer is abstracted away, see architecture). The frequency magnitude and impulse response is shown in Figure 1(a).
+Since a monolithic filter for the whole interpolator would not be very flexible or efficient, a variable filter cascade is employed. At $R=2$ the interpolator uses a single, sharp HBF with a transition band form $\omega_p=0.4\Omega$  to $\omega_s=0.6\Omega$, with $\omega_p$ being the passband frequency and $\omega_s$ the stopband frequency. The minimum HBF size for an image rejection of higher than 90dB is 59 taps using the Parks–McClellan/Remez algorithm. Due to the high stopband attenuation and the symmetrical nature of the frequency response, passband ripple is not a concern. A zero stuffer inserts a zero between each sample and the filter input (in the actual implementation this zero stuffer is abstracted away, see architecture). The frequency magnitude and impulse response is shown in Figure 1(a).
 
 |<img src="{{site.baseurl}}/img/posts/interpolator/individual.png" width="100%">|
 |:--:|
@@ -60,9 +60,9 @@ An example for $R_{CIC}=6$ is depicted in Figure 1(c).
 | **(2)** Composite frequency responses for various interpolator configu-
 rations. |
 
-As we need the CIC stage to realize rate-changes of 2 to 1024, the CIC has to provide >90dB image rejection for all configurations. It was found that a 6th order $M=6$ CIC at $R=D=2$ is just barely short of this performance. Nonetheless, 89.7dB of image rejection was deemed sufficient. As shown in Figure \ref{composite}, the aliases are attenuated further at higher rate changes.
+As we need the CIC stage to realize rate-changes of 2 to 1024, the CIC has to provide >90dB image rejection for all configurations. It was found that a 6th order $M=6$ CIC at $R=D=2$ is just barely short of this performance. Nonetheless, 89.7dB of image rejection was deemed sufficient. As shown in Figure 2, the aliases are attenuated further at higher rate changes.
 
-Unfortunately, a CIC filter exhibits inevitable drooping of the passband. This droop is exacerbated as the rate-change and thus differential comb delay increases. For the interpolator, this is effect is mitigated by the fact that the passband is compressed by the two leading HBF stages. The droop for a selection of rate-changes is plotted in Figure 2. For this interpolator a worst-case of -0.86dB was deemed tolerable. A small, even multiplier-less, compensation filter could be added in the future.
+Unfortunately, a CIC filter exhibits inevitable drooping of the passband. This droop is exacerbated as the rate-change and thus differential comb delay increases. For the interpolator, this is effect is mitigated by the fact that the passband is compressed by the two leading HBF stages. The droop for a selection of rate-changes is plotted in Figure 3. For this interpolator a worst-case of -0.86dB was deemed tolerable. A small, even multiplier-less, compensation filter could be added in the future.
 
 Another downside of the cascaded interpolator architecture is that the rate change can not take any value. $R_{CIC}$ can be any natural number greater than 1. However, as the composite rate-change is multiplicative
 \begin{equation}
@@ -88,7 +88,7 @@ To stay within the 240 DSP limit of the FPGA, a custom, DSP multiplexed architec
 
 
 
-This results in the multiplexed DSP architecture illustrated in Figure 4. The XILINX DSP48E1 DSP circuitry (see XILINX DSP Usage Guide[^4] for details) is shown in blue with all of the internal registers and arithmetic enabled. The $d$ delayed filter inputs $x_{[n-d]}^A$ for filter A and $x_{[n-d]}^B$ for filter B are multiplexed into the pre-adder inputs, while the $b_d^A$ (filter A) and $b_d^B$ (filter B) filter coefficients are multiplexed into the multiplier input. When the multiplexing signal h is true, the DSP computes one output of one filter tap
+This results in the multiplexed DSP architecture illustrated in Figure 4. The XILINX DSP48E1 DSP circuitry (see XILINX DSP Usage Guide[^5] for details) is shown in blue with all of the internal registers and arithmetic enabled. The $d$ delayed filter inputs $x_{[n-d]}^A$ for filter A and $x_{[n-d]}^B$ for filter B are multiplexed into the pre-adder inputs, while the $b_d^A$ (filter A) and $b_d^B$ (filter B) filter coefficients are multiplexed into the multiplier input. When the multiplexing signal h is true, the DSP computes one output of one filter tap
 \begin{equation}
   p_{d+1}=((x_{[n-d_1]}^A+x_{[n-d_2]}^A)\cdot b_d^A ) + p_d
 \end{equation}
@@ -106,9 +106,9 @@ With all of the optimizations, HBF1 requires 15 multiplications to compute two n
 
 There are a few additional adjustments necessary to make the architecture execute the desired function. First, the trivial polyphase sample from HBF1 has to be piped into the input of HBF2 with the correct delay. Second, a zero multiplication has to be injected in the last time-multiplexed DSP because HBF1 requires an odd amount of multiplications. Third, as filter rounding for the DSPs is performed by piping an offset value into the C input of the first DSP block, this offset must be applied every second cycle for filter B.
 
-Using this arrangement, the second HBF can be implemented at zero DSP cost. The downside is that the multiplexers use more fabric logic, though this was not the limiting resource.
+Using this arrangement, the second HBF can be implemented at **zero DSP cost**. The downside is that the multiplexers use more fabric logic, though this was not the limiting resource.
 
-In order to make the interpolator meet the $R_{CLK}=250$MHz timing requirements, pipelining has to be used between each arthmetic operation and DSP block. During development it was found that the C register of the DSPs was not necessary to meet timing in a design containing only one interpolator. Yet, with several interpolators in a big design, it was found that the C register is required. As the C register actualizes a unit delay between the postadders in the DSP chain, the filter topology had to be adapted. Figure \ref{arch} shows three iterations of HBF topologies with the last one being utilized in the final interpolator.
+In order to make the interpolator meet the $R_{CLK}=250$MHz timing requirements, pipelining has to be used between each arthmetic operation and DSP block. During development it was found that the C register of the DSPs was not necessary to meet timing in a design containing only one interpolator. Yet, with several interpolators in a big design, it was found that the C register is required. As the C register actualizes a unit delay between the postadders in the DSP chain, the filter topology had to be adapted. Figure 5 shows three iterations of HBF topologies with the last one being utilized in the final interpolator.
 
 |<img src="{{site.baseurl}}/img/posts/interpolator/topologies.png" width="78%">|
 |:--:|
@@ -134,8 +134,18 @@ Also, since
 \end{equation}
 the DC gain of the filter becomes very substantial and not a power of two in many cases. It can thus not be compensated via simple bitshifting. To overcome this problem the CIC uses a Look-Up Table (LUT) with compensation values in a custom format. There are 11 bit of linear, fractional, fixed-point gain which is applied at the input of the CIC and 7 bit of bitshifting (i.e. power of two) gain, which is applied at the output. This compromise uses just a single DSP at the input, one RAMB18 block and some logic for the variable bitshifting at the output. The DC gain is essentially unity using this scheme.
 
-An approach to build a multiplier-free interpolator would be to employ a ``Sum Of Powers Of Two" (SOPOT) architecture similar to \cite{chan2002design}. Here the hardware multipliers are replaced with clever bitshifting and addition to make for very efficient, though not very flexible, filter tap computation. The restricted choice of filter coefficients could lead to a minimal increase in filter size, as the zeros of the transfer function do not land exactly on the unit circle.
+An approach to build a multiplier-free interpolator would be to employ a "Sum Of Powers Of Two" (SOPOT) architecture similar to[^6]. Here the hardware multipliers are replaced with clever bitshifting and addition to make for very efficient, though not very flexible, filter tap computation. The restricted choice of filter coefficients could lead to a minimal increase in filter size, as the zeros of the transfer function do not land exactly on the unit circle.
 
 
 
-[^4]:
+[^1]: [A Beginner's Guide To Cascaded Integrator-Comb (CIC) Filters](https://www.dsprelated.com/showarticle/1337.php)
+
+[^2]: [Half-Band Filters, a Workhorse of Decimation Filters](https://tomverbeure.github.io/2020/12/15/Half-Band-Filters-A-Workhorse-of-Decimation-Filters.html)
+
+[^3]: [Design of a Multi-Stage PDM to PCM Decimation Pipeline](https://tomverbeure.github.io/2020/12/20/Design-of-a-Multi-Stage-PDM-to-PCM-Decimation-Pipeline.html)
+
+[^4]: [Heinz G Göckler. “Most efficient digital filter structures: The potential of halfband filters in digital signal processing.”](https://www.intechopen.com/books/applications-of-digital-signal-processing/most-efficient-digital-filter-structures-the-potential-of-halfband-filters-in-digital-signal-process)
+
+[^5]: [7 Series DSP48E1 Slice User Guide. UG479](https://www.xilinx.com/support/documentation/user_guides/ug479_7Series_DSP48E1.pdf)
+
+[^6]: [SC Chan and KS Yeung. “On the design and multiplier-less realization of digital IF for software radio receivers with prescribed output accuracy.”](https://www.eurasip.org/Proceedings/Eusipco/2002/articles/paper468.pdf)
