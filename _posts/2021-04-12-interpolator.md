@@ -136,6 +136,8 @@ the DC gain of the filter becomes very substantial and not a power of two in man
 
 An approach to build a multiplier-free interpolator would be to employ a "Sum Of Powers Of Two" (SOPOT) architecture similar to[^6]. Here the hardware multipliers are replaced with clever bitshifting and addition to make for very efficient, though not very flexible, filter tap computation. The restricted choice of filter coefficients could lead to a minimal increase in filter size, as the zeros of the transfer function do not land exactly on the unit circle.
 
+## References
+
 
 
 [^1]: [A Beginner's Guide To Cascaded Integrator-Comb (CIC) Filters](https://www.dsprelated.com/showarticle/1337.php)
